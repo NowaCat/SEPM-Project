@@ -7,6 +7,8 @@ import rmit.assignment.tourManagementTool.model.Tour;
 @Repository
 public interface TourRepository extends CrudRepository<Tour, Long> {
 
+    Tour findByCustomTourIdentifier(String tourId);
+
     @Override
-    Iterable<Tour> findAllById(Iterable<Long> iterable);
+    Iterable<Tour> findAll();
 }

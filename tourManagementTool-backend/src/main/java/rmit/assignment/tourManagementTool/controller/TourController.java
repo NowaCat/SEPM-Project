@@ -5,10 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import rmit.assignment.tourManagementTool.exceptions.TourIdException;
 import rmit.assignment.tourManagementTool.model.Tour;
 import rmit.assignment.tourManagementTool.services.MapValidationErrorService;
 import rmit.assignment.tourManagementTool.services.TourService;
@@ -36,5 +34,27 @@ public class TourController {
         Tour tour1 = tourService.saveOrUpdateTour(tour);
 
         return new ResponseEntity<Tour>(tour1, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{tourId}")
+    public ResponseEntity<?> getTourByCustomId(@PathVariable String tourId){
+        Tour tour = tourService.findTourByCustomIdentifier(tourId.toUpperCase());
+
+        if (tour == null){
+            throw new TourIdException("Tour ID '" + tourId + "' does not exist" );
+        }
+        return new ResponseEntity<Tour>(tour, HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public Iterable<Tour> getAllTours(){
+        return tourService.findAllTours();
+    }
+
+    @DeleteMapping("/{tourId}")
+    public ResponseEntity<?> deleteTour(@PathVariable String tourId){
+        tourService.deleteTourByCustomIdentifier(tourId.toUpperCase());
+
+        return new ResponseEntity<String>("Tour with ID '" + tourId + "' deleted successfully", HttpStatus.OK);
     }
 }
