@@ -1,6 +1,10 @@
 package rmit.assignment.tourManagementTool.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.sql.Time;
 import java.util.Date;
 
@@ -10,13 +14,22 @@ public class Tour {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "Tour ID is required")
+    @Size(max=10, message = "Maximum size allowed is 10 characters")
+    @Column(updatable = false, unique = true)
     private String customTourIdentifier;
+    @NotBlank(message = "Tour name is required")
     private String tourName;
+    @NotBlank(message = "Tour type is required")
     private String tourType;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date tourDate;
     private Time minDuration;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date created_At;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date updated_At;
 
     public Tour() {
@@ -89,6 +102,7 @@ public class Tour {
     @PrePersist
     protected void onCreate(){
         this.created_At = new Date();
+        this.minDuration = Time.valueOf("00:00:00");
     }
 
     @PreUpdate
