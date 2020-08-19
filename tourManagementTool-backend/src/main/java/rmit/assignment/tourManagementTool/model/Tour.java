@@ -28,6 +28,7 @@ public class Tour {
     private Time minDuration;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
+    @Column(updatable = false)
     private Date created_At;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date updated_At;
@@ -102,7 +103,6 @@ public class Tour {
     @PrePersist
     protected void onCreate(){
         this.created_At = new Date();
-        this.minDuration = Time.valueOf("00:00:00");
     }
 
     @PreUpdate

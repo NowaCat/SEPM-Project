@@ -17,6 +17,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/tour")
+@CrossOrigin
 public class TourController {
 
     @Autowired

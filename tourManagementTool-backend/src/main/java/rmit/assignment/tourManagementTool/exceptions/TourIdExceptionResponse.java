@@ -2,17 +2,17 @@ package rmit.assignment.tourManagementTool.exceptions;
 
 public class TourIdExceptionResponse {
 
-    private String tourIdentifier;
+    private String customTourIdentifier;
 
-    public TourIdExceptionResponse(String tourIdentifier) {
-        this.tourIdentifier = tourIdentifier;
+    public TourIdExceptionResponse(String customTourIdentifier) {
+        this.customTourIdentifier = customTourIdentifier;
     }
 
-    public String getTourIdentifier() {
-        return tourIdentifier;
+    public String getCustomTourIdentifier() {
+        return customTourIdentifier;
     }
 
-    public void setTourIdentifier(String tourIdentifier) {
-        this.tourIdentifier = tourIdentifier;
+    public void setCustomTourIdentifier(String customTourIdentifier) {
+        this.customTourIdentifier = customTourIdentifier;
     }
 }
