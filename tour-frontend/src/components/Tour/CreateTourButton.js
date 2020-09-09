@@ -5,7 +5,7 @@ const CreateTourButton = () => {
   return (
     <React.Fragment>
       <Link to="/addTour" className="btn btn-lg btn-info">
-        Create a Project
+        Create a new Tour
       </Link>
     </React.Fragment>
   );

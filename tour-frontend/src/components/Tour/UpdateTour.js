@@ -43,9 +43,8 @@ class UpdateTour extends Component {
   componentDidUpdate(prevProps) {
     const { tour } = this.props;
     if (this.props.tour !== prevProps.tour) {
-      let tourDate = tour.tourDate;
-      if (tourDate === null) {
-        tourDate = "";
+      if (tour.tourDate === null) {
+        tour.tourDate = "";
       }
       this.setState({
         id: tour.id,

@@ -43,10 +43,11 @@ export const deleteTour = (id) => async (dispatch) => {
     window.confirm(
       "Are you sure? This Will delete the Tour and all of its data."
     )
-  )
+  ) {
     await axios.delete(`/api/tour/${id}`);
-  dispatch({
-    type: DELETE_TOUR,
-    payload: id,
-  });
+    dispatch({
+      type: DELETE_TOUR,
+      payload: id,
+    });
+  }
 };
