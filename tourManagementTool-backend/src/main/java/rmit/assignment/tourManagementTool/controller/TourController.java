@@ -38,8 +38,8 @@ public class TourController {
     }
 
     @GetMapping("/{tourId}")
-    public ResponseEntity<?> getTourByCustomId(@PathVariable String tourId){
-        Tour tour = tourService.findTourByCustomIdentifier(tourId.toUpperCase());
+    public ResponseEntity<?> getTourByTourId(@PathVariable String tourId){
+        Tour tour = tourService.findTourByTourIdentifier(tourId.toUpperCase());
 
         if (tour == null){
             throw new TourIdException("Tour ID '" + tourId + "' does not exist" );
@@ -54,7 +54,7 @@ public class TourController {
 
     @DeleteMapping("/{tourId}")
     public ResponseEntity<?> deleteTour(@PathVariable String tourId){
-        tourService.deleteTourByCustomIdentifier(tourId.toUpperCase());
+        tourService.deleteTourByTourIdentifier(tourId.toUpperCase());
 
         return new ResponseEntity<String>("Tour with ID '" + tourId + "' deleted successfully", HttpStatus.OK);
     }

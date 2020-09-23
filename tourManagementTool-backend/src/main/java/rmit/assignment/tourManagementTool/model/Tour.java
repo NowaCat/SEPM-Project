@@ -6,7 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.sql.Time;
-import java.util.Date;
+import java.util.*;
 
 @Entity
 public class Tour {
@@ -17,7 +17,7 @@ public class Tour {
     @NotBlank(message = "Tour ID is required")
     @Size(max=10, message = "Maximum size allowed is 10 characters")
     @Column(updatable = false, unique = true)
-    private String customTourIdentifier;
+    private String tourIdentifier;
     @NotBlank(message = "Tour name is required")
     private String tourName;
     @NotBlank(message = "Tour type is required")
@@ -33,6 +33,10 @@ public class Tour {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date updated_At;
 
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable
+    private List<Location> locations = new ArrayList<>();
+
     public Tour() {
     }
 
@@ -44,12 +48,12 @@ public class Tour {
         this.id = id;
     }
 
-    public String getCustomTourIdentifier() {
-        return customTourIdentifier;
+    public String getTourIdentifier() {
+        return tourIdentifier;
     }
 
-    public void setCustomTourIdentifier(String customTourIdentifier) {
-        this.customTourIdentifier = customTourIdentifier;
+    public void setTourIdentifier(String tourIdentifier) {
+        this.tourIdentifier = tourIdentifier;
     }
 
     public String getTourName() {
@@ -98,6 +102,24 @@ public class Tour {
 
     public void setUpdated_At(Date updated_At) {
         this.updated_At = updated_At;
+    }
+
+    public List<Location> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(List<Location> locations) {
+        this.locations = locations;
+    }
+
+    public void addLocation(Location location) {
+        this.getLocations().add(location);
+        location.getTours().add(this);
+    }
+
+    public void removeLocation(Location location) {
+        this.getLocations().remove(location);
+        location.getTours().remove(this);
     }
 
     @PrePersist
