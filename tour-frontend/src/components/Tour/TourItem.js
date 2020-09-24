@@ -24,6 +24,12 @@ class TourItem extends Component {
               <p>Tour type: {tour.tourType}</p>
               <p>Tour date: {tour.tourDate}</p>
               <p>Tour duration: {tour.minDuration}</p>
+              <p>
+                Tour locations:
+                {tour.locations.map(
+                  (location, index) => (index ? ", " : "") + " " + location.name
+                )}
+              </p>
             </div>
             <div className="col-md-4 d-none d-lg-block">
               <ul className="list-group">
