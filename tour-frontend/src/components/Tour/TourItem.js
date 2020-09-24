@@ -16,10 +16,11 @@ class TourItem extends Component {
         <div className="card card-body bg-light mb-3">
           <div className="row">
             <div className="col-2">
-              <span className="mx-auto">ID: {tour.customTourIdentifier}</span>
+              <span className="mx-auto">ID: {tour.tourIdentifier}</span>
             </div>
             <div className="col-lg-6 col-md-4 col-8">
               <h3>{tour.tourName}</h3>
+              <hr />
               <p>Tour type: {tour.tourType}</p>
               <p>Tour date: {tour.tourDate}</p>
               <p>Tour duration: {tour.minDuration}</p>
@@ -31,7 +32,7 @@ class TourItem extends Component {
                     <i className="fa fa-flag-checkered pr-1"> Tour Details </i>
                   </li>
                 </a>
-                <Link to={`/updateTour/${tour.customTourIdentifier}`}>
+                <Link to={`/updateTour/${tour.tourIdentifier}`}>
                   <li className="list-group-item update">
                     <i className="fa fa-edit pr-1"> Update Tour Info</i>
                   </li>
@@ -39,10 +40,7 @@ class TourItem extends Component {
 
                 <li
                   className="list-group-item delete"
-                  onClick={this.onDeleteClick.bind(
-                    this,
-                    tour.customTourIdentifier
-                  )}
+                  onClick={this.onDeleteClick.bind(this, tour.tourIdentifier)}
                 >
                   <i className="fa fa-minus-circle pr-1"> Delete Tour</i>
                 </li>

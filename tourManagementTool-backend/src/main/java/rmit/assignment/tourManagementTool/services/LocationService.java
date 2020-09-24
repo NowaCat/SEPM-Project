@@ -3,6 +3,7 @@ package rmit.assignment.tourManagementTool.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import rmit.assignment.tourManagementTool.exceptions.LocationIdException;
 import rmit.assignment.tourManagementTool.exceptions.TourIdException;
 import rmit.assignment.tourManagementTool.model.Location;
 import rmit.assignment.tourManagementTool.model.Tour;
@@ -32,7 +33,7 @@ public class LocationService {
             return locationRepository.save(location);
 
         }catch (Exception e){
-            throw new TourIdException("Location ID '" + location.getLocationIdentifier() + "' already exists");
+            throw new LocationIdException("Location ID '" + location.getLocationIdentifier() + "' already exists");
         }
     }
 
@@ -40,7 +41,7 @@ public class LocationService {
         Location location = locationRepository.findByLocationIdentifier(id);
 
         if (location == null) {
-            throw new TourIdException("Location ID '" + id + "' does not exist");
+            throw new LocationIdException("Location ID '" + id + "' does not exist");
         }
 
         return location;

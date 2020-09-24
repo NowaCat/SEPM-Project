@@ -18,10 +18,18 @@ class Header extends Component {
           </button>
 
           <div className="collapse navbar-collapse" id="mobile-nav">
-            <ul className="navbar-nav mr-auto">
+            <ul className="navbar-nav">
               <li className="nav-item">
                 <a className="nav-link" href="/dashboard">
-                  Dashboard
+                  Tour Dashboard
+                </a>
+              </li>
+            </ul>
+
+            <ul className="navbar-nav mr-auto">
+              <li className="nav-item">
+                <a className="nav-link" href="/locationDashboard">
+                  Location Dashboard
                 </a>
               </li>
             </ul>

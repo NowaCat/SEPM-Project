@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Timefield from "react-simple-timefield";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-// import { createTour } from "../../actions/tourActions";
 import classnames from "classnames";
 import { getTour, createTour } from "../../actions/tourActions";
 
@@ -11,29 +10,18 @@ class UpdateTour extends Component {
     super();
 
     this.state = {
-      customTourIdentifier: "",
+      tourIdentifier: "",
       tourName: "",
       tourType: "",
       tourDate: "",
       minDuration: "00:00:00",
+      locations: [],
       errors: {},
     };
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.errors) {
-  //     this.setState({ errors: nextProps.errors });
-  //   }
-  // }
-
-  // static getDerivedStateFromProps(nextProps, prevState) {
-  //   if (nextProps.errors) {
-  //     return { errors: nextProps.errors };
-  //   }
-  // }
 
   componentDidMount() {
     const { id } = this.props.match.params;
@@ -49,13 +37,12 @@ class UpdateTour extends Component {
       this.setState({
         id: tour.id,
         tourName: tour.tourName,
-        customTourIdentifier: tour.customTourIdentifier,
+        tourIdentifier: tour.tourIdentifier,
         tourType: tour.tourType,
         tourDate: tour.tourDate,
         minDuration: tour.minDuration,
+        locations: tour.locations,
       });
-      // console.log(this.props);
-      // console.log(prevProps);
     }
   }
 
@@ -74,16 +61,38 @@ class UpdateTour extends Component {
 
     const newTour = {
       id: this.state.id,
-      customTourIdentifier: this.state.customTourIdentifier,
+      tourIdentifier: this.state.tourIdentifier,
       tourName: this.state.tourName,
       tourType: this.state.tourType,
       tourDate: this.state.tourDate,
       minDuration: this.state.minDuration,
+      locations: this.state.locations,
     };
 
     this.props.createTour(newTour, this.props.history);
     console.log(newTour);
   }
+
+  handleLocationIdentifierChange = (index) => (e) => {
+    const newLocations = this.state.locations.map((location, l_index) => {
+      if (index !== l_index) return location;
+      return { ...location, locationIdentifier: e.target.value };
+    });
+
+    this.setState({ locations: newLocations });
+  };
+
+  handleAddLocation = () => {
+    this.setState({
+      locations: this.state.locations.concat([{ locationIdentifier: "" }]),
+    });
+  };
+
+  handleRemoveLocation = (index) => () => {
+    this.setState({
+      locations: this.state.locations.filter((l, l_index) => index !== l_index),
+    });
+  };
 
   render() {
     const { errors } = this.state;
@@ -115,16 +124,16 @@ class UpdateTour extends Component {
                   <input
                     type="text"
                     className={classnames("form-control form-control-lg", {
-                      "is-invalid": errors.customTourIdentifier,
+                      "is-invalid": errors.tourIdentifier,
                     })}
                     placeholder="Unique Tour ID"
-                    name="customTourIdentifier"
-                    value={this.state.customTourIdentifier}
+                    name="tourIdentifier"
+                    value={this.state.tourIdentifier}
                     disabled
                   />
-                  {errors.customTourIdentifier && (
+                  {errors.tourIdentifier && (
                     <div className="invalid-feedback">
-                      {errors.customTourIdentifier}
+                      {errors.tourIdentifier}
                     </div>
                   )}
                 </div>
@@ -167,6 +176,43 @@ class UpdateTour extends Component {
                     showSeconds
                   />
                 </div>
+                <h6>Update Location</h6>
+                {this.state.locations.map((location, index) => (
+                  <React.Fragment key={index}>
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        className={classnames(
+                          "form-control form-control-lg mt-2",
+                          {
+                            "is-invalid": errors.locationIdentifier,
+                          }
+                        )}
+                        placeholder="Location Identifier"
+                        value={location.locationIdentifier}
+                        onChange={this.handleLocationIdentifierChange(index)}
+                      />
+                      {errors.locationIdentifier && (
+                        <div className="invalid-feedback">
+                          {errors.locationIdentifier}
+                        </div>
+                      )}
+                    </div>
+                    <input
+                      type="button"
+                      onClick={this.handleRemoveLocation(index)}
+                      className="btn btn-danger mr-2"
+                      value="Remove Location"
+                    ></input>
+                  </React.Fragment>
+                ))}
+
+                <input
+                  type="button"
+                  onClick={this.handleAddLocation}
+                  className="btn btn-success"
+                  value="Add Location"
+                />
 
                 <input
                   type="submit"
