@@ -2,6 +2,7 @@ package rmit.assignment.tourManagementTool.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import rmit.assignment.tourManagementTool.exceptions.LocationIdException;
 import rmit.assignment.tourManagementTool.exceptions.TourIdException;
 import rmit.assignment.tourManagementTool.model.Location;
 import rmit.assignment.tourManagementTool.model.Tour;
@@ -31,15 +32,15 @@ public class TourService {
             for (Location loc: tour.getLocations()) {
                 Location newLoc = locationRepository.findByLocationIdentifier(loc.getLocationIdentifier());
                 if (newLoc == null) {
-                    throw new TourIdException(loc.getLocationIdentifier());
+                    throw new LocationIdException(loc.getLocationIdentifier());
                 }
                 tempLocs.add(newLoc);
             }
             tour.setLocations(tempLocs);
             return tourRepository.save(tour);
 
-        }catch (TourIdException t){
-            throw new TourIdException("Location ID '" + t.getMessage() + "' not found");
+        }catch (LocationIdException t){
+            throw new LocationIdException("Location(s) not found");
         }
 
         catch (Exception e){

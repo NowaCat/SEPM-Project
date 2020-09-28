@@ -16,4 +16,10 @@ public class CustomResponseEntityExceptionHandler {
         TourIdExceptionResponse res = new TourIdExceptionResponse(ex.getMessage());
         return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler
+    public final ResponseEntity<Object> handleLocationIdException(LocationIdException ex, WebRequest web){
+        LocationIdExceptionResponse res = new LocationIdExceptionResponse(ex.getMessage());
+        return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+    }
 }
