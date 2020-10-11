@@ -11,4 +11,6 @@ public interface TourRepository extends CrudRepository<Tour, Long> {
 
     @Override
     Iterable<Tour> findAll();
+
+    Iterable<Tour> findAllByTourCreator(String username);
 }

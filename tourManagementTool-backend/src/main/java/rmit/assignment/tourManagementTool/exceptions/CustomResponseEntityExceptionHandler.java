@@ -22,4 +22,16 @@ public class CustomResponseEntityExceptionHandler {
         LocationIdExceptionResponse res = new LocationIdExceptionResponse(ex.getMessage());
         return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler
+    public final ResponseEntity<Object> handleUsernameException(UsernameAlreadyExistsException ex, WebRequest web){
+        UsernameAlreadyExistsExceptionResponse res = new UsernameAlreadyExistsExceptionResponse(ex.getMessage());
+        return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public final ResponseEntity<Object> handleTourNotFoundException(TourNotFoundException ex, WebRequest web){
+        TourNotFoundExceptionResponse res = new TourNotFoundExceptionResponse(ex.getMessage());
+        return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+    }
 }

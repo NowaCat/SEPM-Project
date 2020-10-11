@@ -1,6 +1,7 @@
 package rmit.assignment.tourManagementTool.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -36,6 +37,12 @@ public class Tour {
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable
     private List<Location> locations = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private User user;
+
+    private String tourCreator;
 
     public Tour() {
     }
@@ -120,6 +127,22 @@ public class Tour {
     public void removeLocation(Location location) {
         this.getLocations().remove(location);
         location.getTours().remove(this);
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getTourCreator() {
+        return tourCreator;
+    }
+
+    public void setTourCreator(String tourCreator) {
+        this.tourCreator = tourCreator;
     }
 
     @PrePersist

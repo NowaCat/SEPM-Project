@@ -12,6 +12,7 @@ import rmit.assignment.tourManagementTool.services.MapValidationErrorService;
 import rmit.assignment.tourManagementTool.services.TourService;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,19 +28,20 @@ public class TourController {
     private MapValidationErrorService mapValidationErrorService;
 
     @PostMapping("")
-    public ResponseEntity<?> createNewTour(@Valid @RequestBody Tour tour, BindingResult result){
+    public ResponseEntity<?> createNewTour(@Valid @RequestBody Tour tour,
+                                           BindingResult result, Principal principal){
 
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if(errorMap!=null) return errorMap;
 
-        Tour tour1 = tourService.saveOrUpdateTour(tour);
+        Tour tour1 = tourService.saveOrUpdateTour(tour, principal.getName());
 
         return new ResponseEntity<Tour>(tour1, HttpStatus.CREATED);
     }
 
     @GetMapping("/{tourId}")
-    public ResponseEntity<?> getTourByTourId(@PathVariable String tourId){
-        Tour tour = tourService.findTourByTourIdentifier(tourId.toUpperCase());
+    public ResponseEntity<?> getTourByTourId(@PathVariable String tourId, Principal principal){
+        Tour tour = tourService.findTourByTourIdentifier(tourId, principal.getName());
 
         if (tour == null){
             throw new TourIdException("Tour ID '" + tourId + "' does not exist" );
@@ -48,13 +50,13 @@ public class TourController {
     }
 
     @GetMapping("/all")
-    public Iterable<Tour> getAllTours(){
-        return tourService.findAllTours();
+    public Iterable<Tour> getAllTours(Principal principal){
+        return tourService.findAllTours(principal.getName());
     }
 
     @DeleteMapping("/{tourId}")
-    public ResponseEntity<?> deleteTour(@PathVariable String tourId){
-        tourService.deleteTourByTourIdentifier(tourId.toUpperCase());
+    public ResponseEntity<?> deleteTour(@PathVariable String tourId, Principal principal){
+        tourService.deleteTourByTourIdentifier(tourId, principal.getName());
 
         return new ResponseEntity<String>("Tour with ID '" + tourId + "' deleted successfully", HttpStatus.OK);
     }
