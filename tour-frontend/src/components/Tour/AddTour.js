@@ -158,6 +158,21 @@ class AddTour extends Component {
                 {this.state.locations.map((location, index) => (
                   <React.Fragment key={index}>
                     <div className="form-group">
+                      {/* <select
+                        className={classnames(
+                          "form-control form-control-lg mt-2",
+                          {
+                            "is-invalid": errors.locationIdentifier,
+                          }
+                        )}
+                      >
+                        <option value="grapefruit">Grapefruit</option>
+                        <option value="lime">Lime</option>
+                        <option selected value="coconut">
+                          Coconut
+                        </option>
+                        <option value="mango">Mango</option>
+                      </select> */}
                       <input
                         type="text"
                         className={classnames(

@@ -16,6 +16,7 @@ class UpdateTour extends Component {
       tourDate: "",
       minDuration: "00:00:00",
       locations: [],
+      allAllocations: [],
       errors: {},
     };
 
@@ -42,6 +43,7 @@ class UpdateTour extends Component {
         tourDate: tour.tourDate,
         minDuration: tour.minDuration,
         locations: tour.locations,
+        allAllocations: tour.allAllocations,
       });
     }
   }
@@ -67,6 +69,7 @@ class UpdateTour extends Component {
       tourDate: this.state.tourDate,
       minDuration: this.state.minDuration,
       locations: this.state.locations,
+      allAllocations: this.state.allAllocations,
     };
 
     this.props.createTour(newTour, this.props.history);
@@ -180,18 +183,21 @@ class UpdateTour extends Component {
                 {this.state.locations.map((location, index) => (
                   <React.Fragment key={index}>
                     <div className="form-group">
-                      <input
-                        type="text"
+                      <select
                         className={classnames(
                           "form-control form-control-lg mt-2",
                           {
                             "is-invalid": errors.locationIdentifier,
                           }
                         )}
-                        placeholder="Location Identifier"
-                        value={location.locationIdentifier}
                         onChange={this.handleLocationIdentifierChange(index)}
-                      />
+                      >
+                        {this.state.allAllocations.map((l, i) => (
+                          <option value={l} key={i}>
+                            {l}
+                          </option>
+                        ))}
+                      </select>
                       {errors.locationIdentifier && (
                         <div className="invalid-feedback">
                           {errors.locationIdentifier}

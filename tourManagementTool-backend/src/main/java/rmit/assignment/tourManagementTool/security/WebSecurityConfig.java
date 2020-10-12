@@ -57,10 +57,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js"
                 ).permitAll()
+                .antMatchers(DELETE_USER_URLS).hasAuthority("ADMIN")
                 .antMatchers(SIGN_UP_URLS).permitAll()
                 .antMatchers(H2_URL).permitAll()
-                .antMatchers(LOCATION_URLS).hasAuthority("USER")
-                .antMatchers(TOUR_URLS).hasAuthority("USER")
+                .antMatchers(LOCATION_URLS).hasAnyAuthority("USER", "ADMIN")
+                .antMatchers(TOUR_URLS).hasAnyAuthority("USER", "ADMIN")
                 .anyRequest().authenticated();
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import rmit.assignment.tourManagementTool.model.Location;
 import rmit.assignment.tourManagementTool.model.User;
 import rmit.assignment.tourManagementTool.payload.JwtLoginSuccessResponse;
 import rmit.assignment.tourManagementTool.payload.LoginRequest;
@@ -14,9 +15,12 @@ import rmit.assignment.tourManagementTool.security.JwtTokenProvider;
 import rmit.assignment.tourManagementTool.security.SecurityService;
 import rmit.assignment.tourManagementTool.services.MapValidationErrorService;
 import rmit.assignment.tourManagementTool.services.UserService;
+import rmit.assignment.tourManagementTool.services.UserServiceImpl;
 import rmit.assignment.tourManagementTool.validators.UserValidator;
 
 import javax.validation.Valid;
+
+import java.security.Principal;
 
 import static rmit.assignment.tourManagementTool.security.WebSecurityConstants.TOKEN_PREFIX;
 
@@ -26,7 +30,7 @@ import static rmit.assignment.tourManagementTool.security.WebSecurityConstants.T
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @Autowired
     private UserValidator userValidator;
@@ -63,5 +67,17 @@ public class UserController {
         userService.save(user);
 
         return new ResponseEntity<>(user, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/all")
+    public Iterable<User> getAllUsers(){
+        return userService.findAll();
+    }
+
+    @DeleteMapping("/delete/{username}")
+    public ResponseEntity<?> deleteUser(@PathVariable String username){
+        userService.deleteUserByUsername(username);
+
+        return new ResponseEntity<String>("User deleted", HttpStatus.OK);
     }
 }

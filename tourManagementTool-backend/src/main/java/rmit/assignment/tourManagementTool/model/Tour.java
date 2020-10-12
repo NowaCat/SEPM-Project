@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.swing.text.MutableAttributeSet;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.sql.Time;
@@ -33,6 +34,8 @@ public class Tour {
     private Date created_At;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date updated_At;
+
+    private ArrayList<String> allAllocations = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable
@@ -143,6 +146,14 @@ public class Tour {
 
     public void setTourCreator(String tourCreator) {
         this.tourCreator = tourCreator;
+    }
+
+    public ArrayList<String> getAllAllocations() {
+        return allAllocations;
+    }
+
+    public void setAllAllocations(ArrayList<String> allAllocations) {
+        this.allAllocations = allAllocations;
     }
 
     @PrePersist

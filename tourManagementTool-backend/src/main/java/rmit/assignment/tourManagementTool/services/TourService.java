@@ -30,7 +30,7 @@ public class TourService {
         try {
 
             if(tour.getId() != null) {
-                Tour existingTour = tourRepository.findByTourIdentifier(tour.getTourIdentifier());
+                Tour existingTour = tourRepository.findByTourIdentifier(tour.getTourIdentifier().toUpperCase());
 
                 if(existingTour != null && (!existingTour.getTourCreator().equals(username))) {
                     throw new TourNotFoundException("Tour not found in your account");
@@ -60,6 +60,11 @@ public class TourService {
                 tempLocs.add(newLoc);
             }
             tour.setLocations(tempLocs);
+            ArrayList<String> tempLocs2 = new ArrayList<>();
+            for (Location l : locationRepository.findAll()) {
+                tempLocs2.add(l.getLocationIdentifier());
+            }
+            tour.setAllAllocations(tempLocs2);
             return tourRepository.save(tour);
 
         }catch (LocationIdException t){

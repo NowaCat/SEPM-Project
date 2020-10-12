@@ -42,4 +42,12 @@ public class UserServiceImpl implements UserService {
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
+
+    public Iterable<User> findAll(){
+        return userRepository.findAll();
+    }
+
+    public void deleteUserByUsername(String username){
+        userRepository.delete(findByUsername(username));
+    }
 }

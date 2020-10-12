@@ -45,6 +45,10 @@ public class User {
         this.tours = tours;
     }
 
+    private String fullName;
+    private String address;
+    private String gender;
+
     public User() {
     }
 
