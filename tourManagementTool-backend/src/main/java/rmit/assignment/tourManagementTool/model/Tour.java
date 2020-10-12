@@ -1,8 +1,10 @@
 package rmit.assignment.tourManagementTool.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.swing.text.MutableAttributeSet;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.sql.Time;
@@ -33,9 +35,17 @@ public class Tour {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date updated_At;
 
+    private ArrayList<String> allAllocations = new ArrayList<>();
+
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable
     private List<Location> locations = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private User user;
+
+    private String tourCreator;
 
     public Tour() {
     }
@@ -120,6 +130,30 @@ public class Tour {
     public void removeLocation(Location location) {
         this.getLocations().remove(location);
         location.getTours().remove(this);
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getTourCreator() {
+        return tourCreator;
+    }
+
+    public void setTourCreator(String tourCreator) {
+        this.tourCreator = tourCreator;
+    }
+
+    public ArrayList<String> getAllAllocations() {
+        return allAllocations;
+    }
+
+    public void setAllAllocations(ArrayList<String> allAllocations) {
+        this.allAllocations = allAllocations;
     }
 
     @PrePersist

@@ -19,11 +19,15 @@ export const createTour = (tour, history) => async (dispatch) => {
 };
 
 export const getTours = () => async (dispatch) => {
-  const res = await axios.get("/api/tour/all");
-  dispatch({
-    type: GET_TOURS,
-    payload: res.data,
-  });
+  try {
+    const res = await axios.get("/api/tour/all");
+    dispatch({
+      type: GET_TOURS,
+      payload: res.data,
+    });
+  } catch (e) {
+    alert("You need to login to view this page", e.response);
+  }
 };
 
 export const getTour = (id, history) => async (dispatch) => {

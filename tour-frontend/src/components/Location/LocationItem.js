@@ -22,6 +22,8 @@ class LocationItem extends Component {
               <h3>{location.name}</h3>
               <hr />
               <p>Location description: {location.description}</p>
+              <p>Location coordinates: {location.coordinates}</p>
+              <p>Location minimum duration: {location.minDuration}</p>
             </div>
             <div className="col-md-4 d-none d-lg-block">
               <ul className="list-group">

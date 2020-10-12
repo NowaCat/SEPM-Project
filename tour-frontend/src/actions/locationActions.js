@@ -24,11 +24,15 @@ export const createLocation = (location, history) => async (dispatch) => {
 };
 
 export const getLocations = () => async (dispatch) => {
-  const res = await axios.get("/api/location/all");
-  dispatch({
-    type: GET_LOCATIONS,
-    payload: res.data,
-  });
+  try {
+    const res = await axios.get("/api/location/all");
+    dispatch({
+      type: GET_LOCATIONS,
+      payload: res.data,
+    });
+  } catch (e) {
+    alert("You need to login to view this page", e.response);
+  }
 };
 
 export const getLocation = (id, history) => async (dispatch) => {

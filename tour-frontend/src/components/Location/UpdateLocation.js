@@ -112,6 +112,7 @@ class UpdateLocation extends Component {
                     </div>
                   )}
                 </div>
+                <h6>Location Coordinates</h6>
                 <div className="form-group">
                   <textarea
                     className="form-control form-control-lg"
