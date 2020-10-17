@@ -84,10 +84,18 @@ export const deleteUser = (username) => async (dispatch) => {
       "Are you sure? This Will delete the User and all of its data."
     )
   ) {
-    await axios.delete(`/api/users/delete/${username}`);
-    dispatch({
-      type: DELETE_USER,
-      payload: username,
-    });
+    try {
+      await axios.delete(`/api/users/delete/${username}`);
+      dispatch({
+        type: DELETE_USER,
+        payload: username,
+      });
+    } catch (error) {
+      alert("You need admin privileges to delete other users", error.response);
+      dispatch({
+        type: GET_ERRORS,
+        payload: error.response.data,
+      });
+    }
   }
 };

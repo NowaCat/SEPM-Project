@@ -108,16 +108,23 @@ class Register extends Component {
                   )}
                 </div>
                 <div className="form-group">
-                  <input
-                    type="text"
+                  <select
                     className="form-control form-control-lg"
                     placeholder="Role"
                     name="role"
                     value={this.state.role}
                     onChange={this.onChange}
-                  />
+                  >
+                    <option value="">Select role:</option>
+                    <option value="USER">User</option>
+                    <option value="ADMIN">Admin</option>
+                  </select>
                 </div>
-                <input type="submit" className="btn btn-info btn-block mt-4" />
+                <input
+                  id="submit"
+                  type="submit"
+                  className="btn btn-info btn-block mt-4"
+                />
               </form>
             </div>
           </div>
