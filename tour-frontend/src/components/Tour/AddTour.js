@@ -3,6 +3,7 @@ import Timefield from "react-simple-timefield";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { createTour } from "../../actions/tourActions";
+import { getLocations } from "../../actions/locationActions";
 import classnames from "classnames";
 
 class AddTour extends Component {
@@ -70,8 +71,13 @@ class AddTour extends Component {
     });
   };
 
+  componentDidMount() {
+    this.props.getLocations();
+  }
+
   render() {
     const { errors } = this.state;
+    const locations = this.props.location.locations;
 
     return (
       <div className="tour">
@@ -158,38 +164,22 @@ class AddTour extends Component {
                 {this.state.locations.map((location, index) => (
                   <React.Fragment key={index}>
                     <div className="form-group">
-                      {/* <select
+                      <select
                         className={classnames(
                           "form-control form-control-lg mt-2",
                           {
                             "is-invalid": errors.locationIdentifier,
                           }
                         )}
-                      >
-                        <option value="grapefruit">Grapefruit</option>
-                        <option value="lime">Lime</option>
-                        <option selected value="coconut">
-                          Coconut
-                        </option>
-                        <option value="mango">Mango</option>
-                      </select> */}
-                      <input
-                        type="text"
-                        className={classnames(
-                          "form-control form-control-lg mt-2",
-                          {
-                            "is-invalid": errors.locationIdentifier,
-                          }
-                        )}
-                        placeholder="Location Identifier"
-                        value={location.locationIdentifier}
                         onChange={this.handleLocationIdentifierChange(index)}
-                      />
-                      {errors.locationIdentifier && (
-                        <div className="invalid-feedback">
-                          {errors.locationIdentifier}
-                        </div>
-                      )}
+                      >
+                        <option value="">Select location:</option>
+                        {locations.map((l, i) => (
+                          <option value={l.locationIdentifier} key={i}>
+                            {l.name}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                     <input
                       type="button"
@@ -224,10 +214,13 @@ class AddTour extends Component {
 AddTour.propTypes = {
   createTour: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  getLocations: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   errors: state.errors,
+  location: state.location,
 });
 
-export default connect(mapStateToProps, { createTour })(AddTour);
+export default connect(mapStateToProps, { createTour, getLocations })(AddTour);
