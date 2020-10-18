@@ -31,10 +31,18 @@ class Header extends Component {
           </li>
         </ul>
 
-        <ul className="navbar-nav mr-auto">
+        <ul className="navbar-nav">
           <li className="nav-item">
-            <Link className="nav-link" to="/locationDashboard">
+            <Link id="location" className="nav-link" to="/locationDashboard">
               Location Dashboard
+            </Link>
+          </li>
+        </ul>
+
+        <ul className="navbar-nav">
+          <li className="nav-item">
+            <Link className="nav-link" to="/tourTypeDashboard">
+              Tour type Dashboard
             </Link>
           </li>
         </ul>

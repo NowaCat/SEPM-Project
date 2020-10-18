@@ -2,17 +2,10 @@ package rmit.assignment.tourManagementTool.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import rmit.assignment.tourManagementTool.exceptions.LocationIdException;
-import rmit.assignment.tourManagementTool.exceptions.TourIdException;
 import rmit.assignment.tourManagementTool.model.Location;
-import rmit.assignment.tourManagementTool.model.Tour;
 import rmit.assignment.tourManagementTool.repositories.LocationRepository;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Service
 public class LocationService {

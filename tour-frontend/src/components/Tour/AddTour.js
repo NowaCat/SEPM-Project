@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { createTour } from "../../actions/tourActions";
 import { getLocations } from "../../actions/locationActions";
+import { getTypes } from "../../actions/tourTypeActions";
 import classnames from "classnames";
 
 class AddTour extends Component {
@@ -40,7 +41,7 @@ class AddTour extends Component {
     const newTour = {
       tourIdentifier: this.state.tourIdentifier,
       tourName: this.state.tourName,
-      tourType: this.state.tourType,
+      tourTypes: [{ label: this.state.tourType }],
       tourDate: this.state.tourDate,
       minDuration: this.state.minDuration,
       locations: this.state.locations,
@@ -73,11 +74,13 @@ class AddTour extends Component {
 
   componentDidMount() {
     this.props.getLocations();
+    this.props.getTypes();
   }
 
   render() {
     const { errors } = this.state;
     const locations = this.props.location.locations;
+    const tourTypes = this.props.tourType.tourTypes;
 
     return (
       <div className="tour">
@@ -120,15 +123,21 @@ class AddTour extends Component {
                   )}
                 </div>
                 <div className="form-group">
-                  <textarea
+                  <select
                     className={classnames("form-control form-control-lg", {
                       "is-invalid": errors.tourType,
                     })}
-                    placeholder="Tour Type"
                     name="tourType"
                     value={this.state.tourType}
                     onChange={this.onChange}
-                  ></textarea>
+                  >
+                    <option value="">Select Tour Type:</option>
+                    {tourTypes.map((t, i) => (
+                      <option value={t.label} key={i}>
+                        {t.label}
+                      </option>
+                    ))}
+                  </select>
                   {errors.tourType && (
                     <div className="invalid-feedback">{errors.tourType}</div>
                   )}
@@ -198,6 +207,7 @@ class AddTour extends Component {
                 />
 
                 <input
+                  id="submitTour"
                   type="submit"
                   className="btn btn-primary btn-block mt-4"
                   value="Submit"
@@ -216,11 +226,15 @@ AddTour.propTypes = {
   errors: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
   getLocations: PropTypes.func.isRequired,
+  getTypes: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   errors: state.errors,
   location: state.location,
+  tourType: state.tourType,
 });
 
-export default connect(mapStateToProps, { createTour, getLocations })(AddTour);
+export default connect(mapStateToProps, { getTypes, createTour, getLocations })(
+  AddTour
+);

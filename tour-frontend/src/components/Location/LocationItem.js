@@ -33,6 +33,12 @@ class LocationItem extends Component {
                   </li>
                 </Link>
 
+                <Link to={`/copyLocation/${location.locationIdentifier}`}>
+                  <li className="list-group-item board">
+                    <i className="fa fa-clone pr-1"> Copy Location</i>
+                  </li>
+                </Link>
+
                 <li
                   className="list-group-item delete"
                   onClick={this.onDeleteClick.bind(

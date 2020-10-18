@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import Timefield from "react-simple-timefield";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { createLocation } from "../../actions/locationActions";
+import { getLocation, createLocation } from "../../actions/locationActions";
 import classnames from "classnames";
 
-class AddLocation extends Component {
+class CopyLocation extends Component {
   constructor() {
     super();
 
@@ -22,9 +22,24 @@ class AddLocation extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.errors) {
-      return { errors: nextProps.errors };
+  componentDidMount() {
+    const { id } = this.props.match.params;
+    this.props.getLocation(id, this.props.history);
+  }
+
+  componentDidUpdate(prevProps) {
+    const { location } = this.props;
+    if (this.props.location !== prevProps.location) {
+      this.setState({
+        id: location.id,
+        name: location.name,
+        locationIdentifier: "",
+        coordinates: location.coordinates,
+        description: location.description,
+        minDuration: location.minDuration,
+      });
+      // console.log(this.props);
+      // console.log(prevProps);
     }
   }
 
@@ -36,6 +51,7 @@ class AddLocation extends Component {
     e.preventDefault();
 
     const newLocation = {
+      // id: this.state.id,
       locationIdentifier: this.state.locationIdentifier,
       name: this.state.name,
       coordinates: this.state.coordinates,
@@ -47,6 +63,12 @@ class AddLocation extends Component {
     console.log(newLocation);
   }
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.errors) {
+      return { errors: nextProps.errors };
+    }
+  }
+
   render() {
     const { errors } = this.state;
 
@@ -55,7 +77,7 @@ class AddLocation extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
-              <h5 className="display-4 text-center">Create Location form</h5>
+              <h5 className="display-4 text-center">Copy Location form</h5>
               <hr />
               <form onSubmit={this.onSubmit}>
                 <div className="form-group">
@@ -77,19 +99,20 @@ class AddLocation extends Component {
                   <input
                     type="text"
                     className={classnames("form-control form-control-lg", {
-                      "is-invalid": errors.tourIdentifier,
+                      "is-invalid": errors.locationIdentifier,
                     })}
-                    placeholder="Unique Location ID"
+                    placeholder="Please enter a new location ID"
                     name="locationIdentifier"
                     value={this.state.locationIdentifier}
                     onChange={this.onChange}
                   />
-                  {errors.tourIdentifier && (
+                  {errors.locationIdentifier && (
                     <div className="invalid-feedback">
-                      {errors.tourIdentifier}
+                      {errors.locationIdentifier}
                     </div>
                   )}
                 </div>
+                <h6>Location Coordinates</h6>
                 <div className="form-group">
                   <textarea
                     className="form-control form-control-lg"
@@ -128,7 +151,6 @@ class AddLocation extends Component {
                 </div>
 
                 <input
-                  id="submitLocation"
                   type="submit"
                   className="btn btn-primary btn-block mt-4"
                   value="Submit"
@@ -142,13 +164,18 @@ class AddLocation extends Component {
   }
 }
 
-AddLocation.propTypes = {
+CopyLocation.propTypes = {
   createLocation: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
+  getLocation: PropTypes.func.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
+  location: state.location.location,
   errors: state.errors,
 });
 
-export default connect(mapStateToProps, { createLocation })(AddLocation);
+export default connect(mapStateToProps, { getLocation, createLocation })(
+  CopyLocation
+);

@@ -22,8 +22,8 @@ public class Tour {
     private String tourIdentifier;
     @NotBlank(message = "Tour name is required")
     private String tourName;
-    @NotBlank(message = "Tour type is required")
-    private String tourType;
+//    @NotBlank(message = "Tour type is required")
+//    private String tourType;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date tourDate;
@@ -40,6 +40,10 @@ public class Tour {
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable
     private List<Location> locations = new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable
+    private List<TourType> tourTypes = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
@@ -74,13 +78,13 @@ public class Tour {
         this.tourName = tourName;
     }
 
-    public String getTourType() {
-        return tourType;
-    }
-
-    public void setTourType(String tourType) {
-        this.tourType = tourType;
-    }
+//    public String getTourType() {
+//        return tourType;
+//    }
+//
+//    public void setTourType(String tourType) {
+//        this.tourType = tourType;
+//    }
 
     public Date getTourDate() {
         return tourDate;
@@ -166,4 +170,11 @@ public class Tour {
         this.updated_At = new Date();
     }
 
+    public List<TourType> getTourTypes() {
+        return tourTypes;
+    }
+
+    public void setTourTypes(List<TourType> tourTypes) {
+        this.tourTypes = tourTypes;
+    }
 }

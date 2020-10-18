@@ -20,6 +20,10 @@ import { SET_CURRENT_USER } from "./actions/types";
 import { logout } from "./actions/securityAction";
 import SecuredRoute from "./securityUtils/secureRoute";
 import UserDashboard from "./components/UserDashboard";
+import CopyLocation from "./components/Location/CopyLocation";
+import AddTourType from "./components/Tour/AddTourType";
+import TourTypeDashboard from "./components/TourTypeDashboard";
+import UpdateTourType from "./components/Tour/UpdateTourType";
 
 const jwtToken = localStorage.jwtToken;
 
@@ -63,8 +67,24 @@ function App() {
               component={LocationDashboard}
             />
             <SecuredRoute exact path="/dashboard" component={Dashboard} />
+            <SecuredRoute
+              exact
+              path="/tourTypeDashboard"
+              component={TourTypeDashboard}
+            />
             <SecuredRoute exact path="/addTour" component={AddTour} />
+            <SecuredRoute exact path="/addTourType" component={AddTourType} />
             <SecuredRoute exact path="/updateTour/:id" component={UpdateTour} />
+            <SecuredRoute
+              exact
+              path="/updateType/:label"
+              component={UpdateTourType}
+            />
+            <SecuredRoute
+              exact
+              path="/copyLocation/:id"
+              component={CopyLocation}
+            />
             <SecuredRoute exact path="/addLocation" component={AddLocation} />
             <SecuredRoute exact path="/users" component={UserDashboard} />
             <SecuredRoute

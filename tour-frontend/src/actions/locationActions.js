@@ -50,7 +50,7 @@ export const getLocation = (id, history) => async (dispatch) => {
 export const deleteLocation = (id) => async (dispatch) => {
   if (
     window.confirm(
-      "Are you sure? This Will delete the Tour and all of its data."
+      "Are you sure? This Will delete the Location and all of its data."
     )
   ) {
     await axios.delete(`/api/location/${id}`);

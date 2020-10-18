@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import { getTour, createTour } from "../../actions/tourActions";
+import { getTypes } from "../../actions/tourTypeActions";
 
 class UpdateTour extends Component {
   constructor() {
@@ -27,6 +28,7 @@ class UpdateTour extends Component {
   componentDidMount() {
     const { id } = this.props.match.params;
     this.props.getTour(id, this.props.history);
+    this.props.getTypes();
   }
 
   componentDidUpdate(prevProps) {
@@ -39,7 +41,7 @@ class UpdateTour extends Component {
         id: tour.id,
         tourName: tour.tourName,
         tourIdentifier: tour.tourIdentifier,
-        tourType: tour.tourType,
+        tourTypes: [{ label: this.state.tourType }],
         tourDate: tour.tourDate,
         minDuration: tour.minDuration,
         locations: tour.locations,
@@ -65,7 +67,7 @@ class UpdateTour extends Component {
       id: this.state.id,
       tourIdentifier: this.state.tourIdentifier,
       tourName: this.state.tourName,
-      tourType: this.state.tourType,
+      tourTypes: [{ label: this.state.tourType }],
       tourDate: this.state.tourDate,
       minDuration: this.state.minDuration,
       locations: this.state.locations,
@@ -99,6 +101,7 @@ class UpdateTour extends Component {
 
   render() {
     const { errors } = this.state;
+    const tourTypes = this.props.tourType.tourTypes;
 
     return (
       <div className="tour">
@@ -141,15 +144,21 @@ class UpdateTour extends Component {
                   )}
                 </div>
                 <div className="form-group">
-                  <textarea
+                  <select
                     className={classnames("form-control form-control-lg", {
                       "is-invalid": errors.tourType,
                     })}
-                    placeholder="Tour Type"
                     name="tourType"
                     value={this.state.tourType}
                     onChange={this.onChange}
-                  ></textarea>
+                  >
+                    <option value="">Select Tour Type:</option>
+                    {tourTypes.map((t, i) => (
+                      <option value={t.label} key={i}>
+                        {t.label}
+                      </option>
+                    ))}
+                  </select>
                   {errors.tourType && (
                     <div className="invalid-feedback">{errors.tourType}</div>
                   )}
@@ -239,11 +248,15 @@ UpdateTour.propTypes = {
   createTour: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
   tour: PropTypes.object.isRequired,
+  getTypes: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   tour: state.tour.tour,
   errors: state.errors,
+  tourType: state.tourType,
 });
 
-export default connect(mapStateToProps, { getTour, createTour })(UpdateTour);
+export default connect(mapStateToProps, { getTypes, getTour, createTour })(
+  UpdateTour
+);

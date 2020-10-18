@@ -13,3 +13,8 @@ export const SET_CURRENT_USER = "SET_CURRENT_USER";
 export const RESET_ERRORS = "RESET_ERRORS";
 export const GET_USERS = "GET_USERS";
 export const DELETE_USER = "DELETE_USER";
+
+//tour type actions
+export const GET_TYPES = "GET_TYPES";
+export const GET_TYPE = "GET_TYPE";
+export const DELETE_TYPE = "DELETE_TYPE";

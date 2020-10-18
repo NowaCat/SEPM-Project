@@ -7,6 +7,7 @@ import { deleteTour } from "../../actions/tourActions";
 class TourItem extends Component {
   onDeleteClick = (id) => {
     this.props.deleteTour(id);
+    window.location.reload(true);
   };
 
   render() {
@@ -21,9 +22,11 @@ class TourItem extends Component {
             <div className="col-lg-6 col-md-4 col-8">
               <h3>{tour.tourName}</h3>
               <hr />
-              <p>Tour type: {tour.tourType}</p>
               <p>Tour date: {tour.tourDate}</p>
               <p>Tour duration: {tour.minDuration}</p>
+              <p>
+                Tour Type: {tour.tourTypes[0] ? tour.tourTypes[0].label : ""}
+              </p>
               <p>
                 Tour locations:
                 {tour.locations.map(

@@ -7,9 +7,11 @@ import rmit.assignment.tourManagementTool.exceptions.TourIdException;
 import rmit.assignment.tourManagementTool.exceptions.TourNotFoundException;
 import rmit.assignment.tourManagementTool.model.Location;
 import rmit.assignment.tourManagementTool.model.Tour;
+import rmit.assignment.tourManagementTool.model.TourType;
 import rmit.assignment.tourManagementTool.model.User;
 import rmit.assignment.tourManagementTool.repositories.LocationRepository;
 import rmit.assignment.tourManagementTool.repositories.TourRepository;
+import rmit.assignment.tourManagementTool.repositories.TourTypeRepository;
 import rmit.assignment.tourManagementTool.repositories.UserRepository;
 
 import java.util.*;
@@ -25,6 +27,9 @@ public class TourService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private TourTypeRepository tourTypeRepository;
 
     public Tour saveOrUpdateTour(Tour tour, String username){
         try {
@@ -65,6 +70,13 @@ public class TourService {
                 tempLocs2.add(l.getLocationIdentifier());
             }
             tour.setAllAllocations(tempLocs2);
+
+            List<TourType> tempTypes = new ArrayList<>();
+            for (TourType t: tour.getTourTypes()) {
+                TourType tempType = tourTypeRepository.findByLabel(t.getLabel());
+                tempTypes.add(tempType);
+            }
+            tour.setTourTypes(tempTypes);
             return tourRepository.save(tour);
 
         }catch (LocationIdException t){

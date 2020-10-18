@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const CreateTourButton = () => {
   return (
     <React.Fragment>
-      <Link to="/addTour" className="btn btn-lg btn-info">
+      <Link id="createtour" to="/addTour" className="btn btn-lg btn-info">
         Create a new Tour
       </Link>
     </React.Fragment>
